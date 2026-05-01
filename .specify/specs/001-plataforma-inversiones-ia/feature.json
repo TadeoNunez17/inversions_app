@@ -1,0 +1,12 @@
+{
+  "feature": "001-plataforma-inversiones-ia",
+  "created": "2026-04-23",
+  "status": "ready",
+  "type": "FUNDACIONAL",
+  "level": "Sistema / Vision",
+  "source": ".drfic/diana-sdk/specs/001-spec-drfic.md",
+  "spec": "spec.md",
+  "requirements": "requirements.md",
+  "checklist": "checklist.md",
+  "tasks": "tasks.md"
+}
