@@ -17,11 +17,11 @@
 
 **Purpose**: Preparar estructura base y convenciones de trabajo para frontend/backend/tests.
 
-- [ ] T001 Create monorepo app folders and baseline README files in frontend/README.md and backend/README.md
-- [ ] T002 [P] Initialize frontend workspace skeleton and scripts in frontend/package.json
-- [ ] T003 [P] Initialize backend workspace skeleton and scripts in backend/package.json
-- [ ] T004 [P] Add root quality scripts for lint and test orchestration in package.json
-- [ ] T005 [P] Create shared environment template for auth, broker and observability keys in backend/.env.example
+- [x] T001 Create monorepo app folders and baseline README files in frontend/README.md and backend/README.md
+- [x] T002 [P] Initialize frontend workspace skeleton and scripts in frontend/package.json
+- [x] T003 [P] Initialize backend workspace skeleton and scripts in backend/package.json
+- [x] T004 [P] Add root quality scripts for lint and test orchestration in package.json
+- [x] T005 [P] Create shared environment template for auth, broker and observability keys in backend/.env.example
 
 ---
 
@@ -31,17 +31,17 @@
 
 **CRITICAL**: No iniciar historias hasta cerrar esta fase.
 
-- [ ] T006 Implement JWT verification and auth context middleware in backend/src/middleware/authContext.ts (FR-012, PL-001)
-- [ ] T007 [P] Implement RBAC authorization guard for viewer/trader/admin in backend/src/middleware/rbac.ts (FR-017, PL-001)
-- [ ] T008 [P] Implement MFA challenge verification middleware for sensitive actions in backend/src/middleware/mfaGuard.ts (FR-019, PL-001)
-- [ ] T009 Define canonical order lifecycle types and transitions in backend/src/domain/orderLifecycle.ts (FR-009, FR-016, PL-009)
-- [ ] T010 [P] Define audit event schema including mandatory trace fields in backend/src/domain/auditEvent.ts (FR-006, FR-011, PL-006)
-- [ ] T011 [P] Implement disclaimer recording contract helper in backend/src/domain/disclaimer.ts (FR-013, PL-012)
-- [ ] T012 Implement rate-limit policy for sensitive endpoints with cooldown payload in backend/src/middleware/rateLimit.ts (FR-015, PL-005)
-- [ ] T013 [P] Implement optimistic locking utility with ORDER_VERSION_STALE mapping in backend/src/domain/versioning.ts (FR-016, PL-009)
-- [ ] T014 [P] Implement market-data freshness metric primitives (p50/p95/p99) in backend/src/observability/marketFreshness.ts (SC-006, PL-011)
-- [ ] T015 Create retention policy config and data-store partition map in backend/src/config/dataGovernance.ts (FR-007, PL-003)
-- [ ] T016 Create dependency resilience policy (timeouts, retries, degraded modes) in backend/src/config/dependencySlo.ts (FR-018, PL-002, PL-010)
+- [x] T006 Implement JWT verification and auth context middleware in backend/src/middleware/authContext.ts (FR-012, PL-001)
+- [x] T007 [P] Implement RBAC authorization guard for viewer/trader/admin in backend/src/middleware/rbac.ts (FR-017, PL-001)
+- [x] T008 [P] Implement MFA challenge verification middleware for sensitive actions in backend/src/middleware/mfaGuard.ts (FR-019, PL-001)
+- [x] T009 Define canonical order lifecycle types and transitions in backend/src/domain/orderLifecycle.ts (FR-009, FR-016, PL-009)
+- [x] T010 [P] Define audit event schema including mandatory trace fields in backend/src/domain/auditEvent.ts (FR-006, FR-011, PL-006)
+- [x] T011 [P] Implement disclaimer recording contract helper in backend/src/domain/disclaimer.ts (FR-013, PL-012)
+- [x] T012 Implement rate-limit policy for sensitive endpoints with cooldown payload in backend/src/middleware/rateLimit.ts (FR-015, PL-005)
+- [x] T013 [P] Implement optimistic locking utility with ORDER_VERSION_STALE mapping in backend/src/domain/versioning.ts (FR-016, PL-009)
+- [x] T014 [P] Implement market-data freshness metric primitives (p50/p95/p99) in backend/src/observability/marketFreshness.ts (SC-006, PL-011)
+- [x] T015 Create retention policy config and data-store partition map in backend/src/config/dataGovernance.ts (FR-007, PL-003)
+- [x] T016 Create dependency resilience policy (timeouts, retries, degraded modes) in backend/src/config/dependencySlo.ts (FR-018, PL-002, PL-010)
 
 **Checkpoint**: Foundation ready, user stories can start.
 
@@ -55,15 +55,15 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Implement source configuration aggregate for enable/disable and weight in backend/src/modules/signals/sourceConfig.ts (FR-003, PL-001)
-- [ ] T018 [P] [US1] Implement confluence engine service for BUY/SELL/HOLD recommendation in backend/src/modules/signals/confluenceEngine.ts (FR-001, FR-010)
-- [ ] T019 [P] [US1] Implement explainability assembler linking evidence rationale in backend/src/modules/signals/explainability.ts (FR-002, SC-001)
-- [ ] T020 [US1] Implement signal evaluation endpoint and response contract in backend/src/routes/signals/evaluate.ts (FR-001, FR-002, FR-003)
-- [ ] T021 [US1] Implement signal details endpoint with evidence breakdown in backend/src/routes/signals/details.ts (FR-002, FR-006)
-- [ ] T022 [P] [US1] Implement frontend signal evaluation page and filters in frontend/src/features/signals/SignalEvaluationPage.tsx (SC-004)
-- [ ] T023 [P] [US1] Implement frontend evidence detail panel for source rationale in frontend/src/features/signals/SignalEvidencePanel.tsx (FR-002, SC-001)
-- [ ] T024 [US1] Wire frontend signal services to API contracts in frontend/src/services/signals/signalApi.ts (FR-001, FR-002)
-- [ ] T025 [US1] Add audit emission for SIGNAL_GENERATED and related trace fields in backend/src/modules/signals/signalAudit.ts (FR-006, PL-006)
+- [x] T017 [P] [US1] Implement source configuration aggregate for enable/disable and weight in backend/src/modules/signals/sourceConfig.ts (FR-003, PL-001)
+- [x] T018 [P] [US1] Implement confluence engine service for BUY/SELL/HOLD recommendation in backend/src/modules/signals/confluenceEngine.ts (FR-001, FR-010)
+- [x] T019 [P] [US1] Implement explainability assembler linking evidence rationale in backend/src/modules/signals/explainability.ts (FR-002, SC-001)
+- [x] T020 [US1] Implement signal evaluation endpoint and response contract in backend/src/routes/signals/evaluate.ts (FR-001, FR-002, FR-003)
+- [x] T021 [US1] Implement signal details endpoint with evidence breakdown in backend/src/routes/signals/details.ts (FR-002, FR-006)
+- [x] T022 [P] [US1] Implement frontend signal evaluation page and filters in frontend/src/features/signals/SignalEvaluationPage.tsx (SC-004)
+- [x] T023 [P] [US1] Implement frontend evidence detail panel for source rationale in frontend/src/features/signals/SignalEvidencePanel.tsx (FR-002, SC-001)
+- [x] T024 [US1] Wire frontend signal services to API contracts in frontend/src/services/signals/signalApi.ts (FR-001, FR-002)
+- [x] T025 [US1] Add audit emission for SIGNAL_GENERATED and related trace fields in backend/src/modules/signals/signalAudit.ts (FR-006, PL-006)
 
 **Checkpoint**: US1 functional and independently testable.
 
