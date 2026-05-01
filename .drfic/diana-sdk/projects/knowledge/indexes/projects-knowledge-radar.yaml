@@ -1,0 +1,26 @@
+version: 1.0.0
+scope: projects-root
+last_updated: 2026-04-29
+
+policy:
+  always_on_radar:
+    - projects-root
+    - project-active
+  optional_layers:
+    - sdk-shared
+
+projects:
+  - id: diana-demoapp
+    alias: demo
+    name: Demo App
+    description: Plataforma de gestión de tareas
+    status: active
+    created: 2026-05-01
+    tech_stack: [React, Node.js, JWT]
+  - id: diana-inversions
+    alias: inv
+    name: Plataforma de Inversiones Asistida por IA
+    description: Plataforma profesional de inversiones con IA, análisis técnico/fundamental y brokers
+    status: active
+    created: 2026-04-23
+    tech_stack: [Vite, React, TypeScript, Node.js, Express, Python, FastAPI, PostgreSQL, Redis]
