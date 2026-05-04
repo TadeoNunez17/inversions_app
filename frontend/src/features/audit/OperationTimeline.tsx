@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface TimelineEvent {
   timestamp: string;
   action: string;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface AuditEvent {
   eventId: string;
@@ -14,8 +14,33 @@ interface AuditHistoryPageProps {
 }
 
 export function AuditHistoryPage({ userId }: AuditHistoryPageProps) {
-  const [events, setEvents] = useState<AuditEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState<AuditEvent[]>([
+    {
+      eventId: 'evt_001',
+      timestamp: '2026-05-04T10:23:00Z',
+      correlationId: 'corr_001',
+      actionType: 'EXECUTION_SUBMITTED',
+      instrument: 'TSLA',
+      outcomeCode: 'SUBMITTED'
+    },
+    {
+      eventId: 'evt_002',
+      timestamp: '2026-05-04T10:20:00Z',
+      correlationId: 'corr_001',
+      actionType: 'HUMAN_APPROVED',
+      instrument: 'TSLA',
+      outcomeCode: 'APPROVED'
+    },
+    {
+      eventId: 'evt_003',
+      timestamp: '2026-05-04T09:15:00Z',
+      correlationId: 'corr_002',
+      actionType: 'EXECUTION_REJECTED',
+      instrument: 'MSFT',
+      outcomeCode: 'REJECTED'
+    }
+  ]);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
     instrument: '',
     actionType: '',
@@ -53,88 +78,134 @@ export function AuditHistoryPage({ userId }: AuditHistoryPageProps) {
     }
   };
 
-  const getActionColor = (action: string) => {
-    if (action.includes('APPROVED')) return 'text-green-600';
-    if (action.includes('FAILED')) return 'text-red-600';
-    if (action.includes('SUBMITTED')) return 'text-blue-600';
-    return 'text-gray-600';
+  const getActionBadge = (action: string) => {
+    if (action.includes('APPROVED')) return 'bg-blue-100 text-primary border-blue-200';
+    if (action.includes('SUBMITTED')) return 'bg-green-100 text-success border-green-200';
+    if (action.includes('REJECTED') || action.includes('FAILED')) return 'bg-red-100 text-danger border-red-200';
+    return 'bg-slate-100 text-slate-600 border-slate-200';
+  };
+
+  const getActionTypeLabel = (action: string) => {
+    if (action === 'HUMAN_APPROVED') return 'Aprobación';
+    if (action === 'EXECUTION_SUBMITTED') return 'Ejecución';
+    if (action === 'EXECUTION_REJECTED') return 'Rechazo';
+    return action;
   };
 
   return (
-    <div className="audit-history-page p-6">
-      <h2 className="text-2xl font-bold mb-6">Historial de Auditoría</h2>
-
-      <div className="filters mb-6 p-4 bg-gray-50 rounded-lg">
-        <div className="grid grid-cols-4 gap-4">
-          <input
-            type="text"
-            placeholder="Instrumento"
-            value={filter.instrument}
-            onChange={(e) => setFilter({...filter, instrument: e.target.value})}
-            className="px-3 py-2 border rounded"
-          />
-          <select
-            value={filter.actionType}
-            onChange={(e) => setFilter({...filter, actionType: e.target.value})}
-            className="px-3 py-2 border rounded"
-          >
-            <option value="">Todas las acciones</option>
-            <option value="HUMAN_APPROVED">Aprobadas</option>
-            <option value="EXECUTION_SUBMITTED">Ejecutadas</option>
-            <option value="EXECUTION_FAILED">Fallidas</option>
-          </select>
-          <input
-            type="date"
-            value={filter.startDate}
-            onChange={(e) => setFilter({...filter, startDate: e.target.value})}
-            className="px-3 py-2 border rounded"
-          />
-          <input
-            type="date"
-            value={filter.endDate}
-            onChange={(e) => setFilter({...filter, endDate: e.target.value})}
-            className="px-3 py-2 border rounded"
-          />
-        </div>
+    <section className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+      <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
+        <h2 className="text-lg font-semibold text-slate-800">Historial de Auditoría</h2>
       </div>
-
-      {loading ? (
-        <div className="text-center py-8">Cargando historial...</div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 text-left">Fecha/Hora</th>
-                <th className="px-4 py-2 text-left">Evento</th>
-                <th className="px-4 py-2 text-left">Instrumento</th>
-                <th className="px-4 py-2 text-left">ID Correlación</th>
-                <th className="px-4 py-2 text-left">Resultado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((event) => (
-                <tr key={event.eventId} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2 text-sm">{new Date(event.timestamp).toLocaleString()}</td>
-                  <td className={`px-4 py-2 text-sm font-medium ${getActionColor(event.actionType)}`}>
-                    {event.actionType}
-                  </td>
-                  <td className="px-4 py-2 text-sm">{event.instrument || '-'}</td>
-                  <td className="px-4 py-2 text-sm font-mono">{event.correlationId}</td>
-                  <td className="px-4 py-2 text-sm">{event.outcomeCode || '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {events.length === 0 && (
-            <div className="text-center py-8 text-gray-500">No se encontraron eventos</div>
-          )}
+      
+      <div className="p-6">
+        {/* Filtros */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Instrumento</label>
+            <input
+              type="text"
+              placeholder="Ej. AAPL"
+              value={filter.instrument}
+              onChange={(e) => setFilter({...filter, instrument: e.target.value})}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Tipo de Acción</label>
+            <select
+              value={filter.actionType}
+              onChange={(e) => setFilter({...filter, actionType: e.target.value})}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            >
+              <option value="">Todos</option>
+              <option value="HUMAN_APPROVED">Aprobación</option>
+              <option value="EXECUTION_SUBMITTED">Ejecución</option>
+              <option value="EXECUTION_REJECTED">Rechazo</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Fecha Inicio</label>
+            <input
+              type="date"
+              value={filter.startDate}
+              onChange={(e) => setFilter({...filter, startDate: e.target.value})}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Fecha Fin</label>
+            <input
+              type="date"
+              value={filter.endDate}
+              onChange={(e) => setFilter({...filter, endDate: e.target.value})}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
         </div>
-      )}
 
-      <div className="mt-4 text-sm text-gray-600">
-        Mostrando {events.length} eventos
+        {loading ? (
+          <div className="text-center py-8 text-slate-500">Cargando historial...</div>
+        ) : (
+          <>
+            {/* Tabla de Eventos */}
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-full text-left text-sm text-slate-600">
+                <thead className="bg-slate-50 text-slate-800 font-medium border-b border-slate-200">
+                  <tr>
+                    <th className="px-4 py-3">Fecha y Hora</th>
+                    <th className="px-4 py-3">Instrumento</th>
+                    <th className="px-4 py-3">Acción</th>
+                    <th className="px-4 py-3">Usuario (MFA)</th>
+                    <th className="px-4 py-3">Estado</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  {events.map((event) => (
+                    <tr key={event.eventId} className="hover:bg-slate-50">
+                      <td className="px-4 py-3 whitespace-nowrap text-slate-600">
+                        {new Date(event.timestamp).toLocaleString('es-ES')}
+                      </td>
+                      <td className="px-4 py-3 font-medium text-slate-900">
+                        {event.instrument || '-'}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {getActionTypeLabel(event.actionType)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="flex items-center text-slate-600">
+                          {userId} 
+                          <svg className="w-3 h-3 text-success ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`px-2 py-1 text-xs font-medium rounded border ${getActionBadge(event.actionType)}`}>
+                          {event.outcomeCode || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Paginación */}
+            <div className="flex items-center justify-between mt-4">
+              <span className="text-sm text-slate-500">Mostrando {events.length} de 45 eventos</span>
+              <div className="flex space-x-2">
+                <button className="px-3 py-1 border border-slate-300 rounded-md text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50" disabled>
+                  Anterior
+                </button>
+                <button className="px-3 py-1 border border-slate-300 rounded-md text-sm text-slate-600 hover:bg-slate-50">
+                  Siguiente
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
